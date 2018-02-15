@@ -1,12 +1,4 @@
-# SEM-performance-checking
-## Search Engine Marketing Performance Checking Script.
-
-## Requirements.
-* Python3
-
-### git clone the repo and download the sample CSV file [here](https://drive.google.com/open?id=13HucjPr2SyJTRhgPvvUCfHaQpY3QTaGiyZHM10pd-l4)
-
-### Run `python3 sem_calculation.py`
+Search Engine Marketing Performance Checking
 
 METRIC
 ------
@@ -36,3 +28,8 @@ CONS
 ----
 The CTR approach 1. it Doesn't care about revenue (ROAS)
                  2. it Doesn't care about conversions (CR, CPA)
+
+
+MORE TIME
+---------
+If i have more time i would first read more about the Search Engine Marking (SEM) metrics to understand the differencies between them more and improve the performance check by combining the best metrics to get a very accurate result.

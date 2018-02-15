@@ -1,9 +1,26 @@
-# imports
+"""
+A Search Engine Marketing (SEM) performance checking tool.
+
+It uses the CTR (Click-Through Rate) metric with the Rank Position to check the performance.
+
+I choose the CTR because based on my understanding it is the most important component to get
+a high QS (Quality Score).
+
+Because the more Click-Through Rates you have the more Quality Score you will get.
+And if you have a high Quality Score you will be on the Top Rank Position, 
+and if you are on the Top Rank Position you will be shown more and you will pay less for the Ad.
+
+And of course the lesser you pay the more Revenue you will get.
+"""
+
 import csv
 from collections import OrderedDict
 
 # define a class object to handle all the calculation
 class SemPerformance:
+	"""
+	A class Object for calculating SEM (Search Engine Marketing) Performance.
+	"""
 	def __init__(self, csv_file):
 		self.csv_file = csv_file
 
@@ -96,6 +113,7 @@ class SemPerformance:
 		data = csv.DictReader(self.csv_file)
 
 		with open('performance_results.csv', 'w') as result_file:
+			# headers to put on the top of the file, required by the csv.DictWriter
 			headers = [
 			    'Search keyword', 'Company',
 			    'Price to pay for Ad', 'Performance'
@@ -116,6 +134,7 @@ class SemPerformance:
 					i += 1
 
 
+# if the file is run from the terminal execute the code
 if __name__ == '__main__':
 	with open('take_home_test_data.csv', 'r') as csv_file:
 		performance = SemPerformance(csv_file)
