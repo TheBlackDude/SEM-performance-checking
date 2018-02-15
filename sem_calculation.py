@@ -22,6 +22,72 @@ class SemPerformance:
 				keywords[row.get('Search keyword')].append(row)
 		return keywords
 
+	# helper method for value greater than or equal to 10
+	def greater_than_10(self, csv_writer, value, new_value, i):
+		if int(value[i].get('Position')) <= 3:
+			price = int(value[1].get('Position')) / float(value[i].get('CTR')) + 0.01
+			new_value['Price to pay for Ad'] = price
+			new_value['Performance'] = 'Very Good'
+			print(
+				'Search keyword: ', new_value.get('Search keyword'), ': ', 
+				'Company Name: ', new_value.get('Company'), ': ',
+				'Performance: ', new_value.get('Performance')
+				)
+			csv_writer.writerow(new_value)
+		elif int(value[i].get('Position')) <= 5:
+			price = int(value[1].get('Position')) / float(value[i].get('CTR')) + 0.01
+			new_value['Price to pay for Ad'] = price
+			new_value['Performance'] = 'Good'
+			print(
+				'Search keyword: ', new_value.get('Search keyword'), ': ',
+				'Company Name: ', new_value.get('Company'), ': ',
+				'Performance: ', new_value.get('Performance')
+				)
+			csv_writer.writerow(new_value)
+		else:
+			price = int(value[1].get('Position')) / float(value[i].get('CTR')) + 0.01
+			new_value['Price to pay for Ad'] = price
+			new_value['Performance'] = 'Bad'
+			print(
+				'Search keyword: ', new_value.get('Search keyword'), ': ',
+				'Company Name: ', new_value.get('Company'), ': ',
+				'Performance: ', new_value.get('Performance')
+				)
+			csv_writer.writerow(new_value)
+
+	# helper method for value less than 10
+	def less_than_10(self, csv_writer, value, new_value, i):
+		if int(value[i].get('Position')) <= 2:
+			price = int(value[1].get('Position')) / float(value[i].get('CTR')) + 0.01
+			new_value['Price to pay for Ad'] = price
+			new_value['Performance'] = 'Very Good'
+			print(
+				'Search keyword: ', new_value.get('Search keyword'), ': ',
+				'Company Name: ', new_value.get('Company'), ': ',
+				'Performance: ', new_value.get('Performance')
+				)
+			csv_writer.writerow(new_value)
+		elif int(value[i].get('Position')) <= 4:
+			price = int(value[1].get('Position')) / float(value[i].get('CTR')) + 0.01
+			new_value['Price to pay for Ad'] = price
+			new_value['Performance'] = 'Good'
+			print(
+				'Search keyword: ', new_value.get('Search keyword'), ': ',
+				'Company Name: ', new_value.get('Company'), ': ',
+				'Performance: ', new_value.get('Performance')
+				)
+			csv_writer.writerow(new_value)
+		else:
+			price = int(value[1].get('Position')) / float(value[i].get('CTR')) + 0.01
+			new_value['Price to pay for Ad'] = price
+			new_value['Performance'] = 'Bad'
+			print(
+				'Search keyword: ', new_value.get('Search keyword'), ': ',
+				'Company Name: ', new_value.get('Company'), ': ',
+				'Performance: ', new_value.get('Performance')
+				)
+			csv_writer.writerow(new_value)
+
     # method to write the performance result to a new file
 	def write_result(self):
 		# let the user know the program is generating a file
@@ -31,8 +97,8 @@ class SemPerformance:
 
 		with open('performance_results.csv', 'w') as result_file:
 			headers = [
-			    'Search keyword', 'CTR', 'Position',
-			    'Company', 'Price to pay', 'Performance'
+			    'Search keyword', 'Company',
+			    'Price to pay for Ad', 'Performance'
 			]
 			csv_writer = csv.DictWriter(result_file, headers)
 			csv_writer.writeheader()
@@ -40,74 +106,14 @@ class SemPerformance:
 			for _, value in self.group_by_keywords(data).items():
 				i = 0
 				while i < len(value):
-					new_value = self.ignore_headers(value[i], ['Impressions', 'Cost', 'Revenue'])
+					new_value = self.ignore_headers(
+						value[i],
+						['Impressions', 'CTR', 'Position', 'Cost', 'Revenue'])
 					if len(value) >= 10:
-						if int(value[i].get('Position')) <= 3:
-							price = int(value[1].get('Position')) / float(value[i].get('CTR')) + 0.01
-							new_value['Price to pay'] = price
-							new_value['Performance'] = 'Very Good'
-							print(
-								'Search keyword: ', new_value.get('Search keyword'), ': ', 
-								'Company Name: ', new_value.get('Company'), ': ',
-								'Performance: ', new_value.get('Performance')
-								)
-							csv_writer.writerow(new_value)
-						elif int(value[i].get('Position')) <= 5:
-							price = int(value[1].get('Position')) / float(value[i].get('CTR')) + 0.01
-							new_value['Price to pay'] = price
-							new_value['Performance'] = 'Good'
-							print(
-								'Search keyword: ', new_value.get('Search keyword'), ': ',
-								'Company Name: ', new_value.get('Company'), ': ',
-								'Performance: ', new_value.get('Performance')
-								)
-							csv_writer.writerow(new_value)
-						else:
-							price = int(value[1].get('Position')) / float(value[i].get('CTR')) + 0.01
-							new_value['Price to pay'] = price
-							new_value['Performance'] = 'Bad'
-							print(
-								'Search keyword: ', new_value.get('Search keyword'), ': ',
-								'Company Name: ', new_value.get('Company'), ': ',
-								'Performance: ', new_value.get('Performance')
-								)
-							csv_writer.writerow(new_value)
+						self.greater_than_10(csv_writer, value, new_value, i)
 					else:
-						if int(value[i].get('Position')) <= 2:
-							price = int(value[1].get('Position')) / float(value[i].get('CTR')) + 0.01
-							new_value['Price to pay'] = price
-							new_value['Performance'] = 'Very Good'
-							print(
-								'Search keyword: ', new_value.get('Search keyword'), ': ',
-								'Company Name: ', new_value.get('Company'), ': ',
-								'Performance: ', new_value.get('Performance')
-								)
-							csv_writer.writerow(new_value)
-						elif int(value[i].get('Position')) <= 4:
-							price = int(value[1].get('Position')) / float(value[i].get('CTR')) + 0.01
-							new_value['Price to pay'] = price
-							new_value['Performance'] = 'Good'
-							print(
-								'Search keyword: ', new_value.get('Search keyword'), ': ',
-								'Company Name: ', new_value.get('Company'), ': ',
-								'Performance: ', new_value.get('Performance')
-								)
-							csv_writer.writerow(new_value)
-						else:
-							price = int(value[1].get('Position')) / float(value[i].get('CTR')) + 0.01
-							new_value['Price to pay'] = price
-							new_value['Performance'] = 'Bad'
-							print(
-								'Search keyword: ', new_value.get('Search keyword'), ': ',
-								'Company Name: ', new_value.get('Company'), ': ',
-								'Performance: ', new_value.get('Performance')
-								)
-							csv_writer.writerow(new_value)
+						self.less_than_10(csv_writer, value, new_value, i)
 					i += 1
-			# for line in data:
-			# 	new_line = self.ignore_headers(line, ['Impressions', 'Cost', 'Revenue'])
-			# 	new_line['Performance'] = 'Good'
-			# 	csv_writer.writerow(new_line)
 
 
 if __name__ == '__main__':
