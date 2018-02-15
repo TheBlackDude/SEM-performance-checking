@@ -12,21 +12,22 @@ class SemPerformance:
 		new_line = {header:line[header] for header in line if header not in headers}
 		return new_line
 
-    # method to write the performance result to a new file
-	def write_result(self):
-		# let the user know the program is generating a file
-		print('Generating results to a file "performance_results.csv"........')
-		# get the data as OrderedDict
-		data = csv.DictReader(self.csv_file)
-
-		# group the data by Search keywords
+	# helper method to group the data by Search keywords
+	def group_by_keywords(self, data):
 		keywords = OrderedDict()
 		for row in data:
 			if not row['Search keyword'] in keywords:
 				keywords[row.get('Search keyword')] = [row]
 			else:
 				keywords[row.get('Search keyword')].append(row)
+		return keywords
 
+    # method to write the performance result to a new file
+	def write_result(self):
+		# let the user know the program is generating a file
+		print('Generating results to a file "performance_results.csv"........')
+		# get the data as OrderedDict
+		data = csv.DictReader(self.csv_file)
 
 		with open('performance_results.csv', 'w') as result_file:
 			headers = [
@@ -36,7 +37,7 @@ class SemPerformance:
 			csv_writer = csv.DictWriter(result_file, headers)
 			csv_writer.writeheader()
 			# loop through the keywords OrderedDict
-			for _, value in keywords.items():
+			for _, value in self.group_by_keywords(data).items():
 				i = 0
 				while i < len(value):
 					new_value = self.ignore_headers(value[i], ['Impressions', 'Cost', 'Revenue'])
