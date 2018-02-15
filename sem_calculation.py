@@ -7,13 +7,6 @@ class SemPerformance:
 	def __init__(self, csv_file):
 		self.csv_file = csv_file
 
-	def get_content(self):
-		csv_reader = csv.DictReader(self.csv_file)
-		name = ''
-		for line in csv_reader:
-			for key, value in line.items():
-				print('key: ', key, 'value: ', value)
-
 	# helper method for ignoring headers
 	def ignore_headers(self, line, headers):
 		new_line = {header:line[header] for header in line if header not in headers}
